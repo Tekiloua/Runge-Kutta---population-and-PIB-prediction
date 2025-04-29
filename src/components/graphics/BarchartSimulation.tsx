@@ -43,7 +43,6 @@ interface BarchartSimulationProps {
 
 export const BarchartSimulation: FC<BarchartSimulationProps> = ({
   typeBarchart,
-  rungeApply,
 }) => {
   const labels = [
     "1961",
@@ -149,7 +148,11 @@ export const BarchartSimulation: FC<BarchartSimulationProps> = ({
         </div>
       ) : (
         <div>
-          <Bar options={options} data={data} />
+          <Bar
+            options={options}
+            className="bg-gray-100 rounded-xl p-4 border-2 border-gray-400"
+            data={data}
+          />
         </div>
       )}
     </div>

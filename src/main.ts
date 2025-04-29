@@ -1,5 +1,8 @@
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
 import path from "node:path";
+import { getFemmes, getHommes, getPibs  ,getTousGenres} from "./db/database";
+// import { server } from "./db/sequelize";
+
 // import started from "electron-squirrel-startup";
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -7,14 +10,34 @@ import path from "node:path";
 //   app.quit();
 // }
 
+ipcMain.handle("fetch-femmes", async () => {
+  const femmes = await getFemmes();
+  return femmes;
+});
+
+ipcMain.handle("fetch-hommes", async () => {
+  const hommes = await getHommes();
+  return hommes;
+});
+
+ipcMain.handle("fetch-tousgenres", async () => {
+  const tous_genres = await getTousGenres();
+  return tous_genres;
+});
+
+ipcMain.handle("fetch-pibs", async () => {
+  const pibs = await getPibs();
+  return pibs;
+});
+
 const createWindow = () => {
   // Create the browser window.
   const mainWindow = new BrowserWindow({
     fullscreen: true,
-    frame:false,
+    frame: false,
     webPreferences: {
       preload: path.join(__dirname, "preload.js"),
-      devTools:false
+      devTools: true,
     },
   });
 

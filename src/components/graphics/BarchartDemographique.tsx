@@ -10,6 +10,7 @@ import {
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
 import FilterDemographique from "../FilterDemographique";
+import { scale } from "framer-motion";
 
 ChartJS.register(
   CategoryScale,
@@ -30,10 +31,15 @@ const options = {
       display: true,
       text: "Graphique demographique",
     },
+    scales: {
+      y: {
+        beginAtZero: true,
+      },
+    },
   },
 };
 
-const labels =  [
+const labels = [
   "1961",
   "1962",
   "1963",
@@ -97,21 +103,29 @@ const labels =  [
   "2021",
   "2022",
   "2023",
-]
+];
+
+type Person = {
+  id: number;
+  tag: string;
+  year: string;
+  value: number;
+};
 
 interface BarchartDemographiqueProps {
-  dataProps: Array<number>;
+  dataProps: Array<Person>;
 }
 
 export function BarchartDemographique({
   dataProps,
 }: BarchartDemographiqueProps) {
+  const data2: Array<number> = dataProps.map((item) => item.value);
   const data = {
     labels,
     datasets: [
       {
         label: "Demographique de la population",
-        data: dataProps,
+        data: data2,
         backgroundColor: "rgba(128, 0, 132, 0.5)",
       },
     ],
@@ -120,7 +134,11 @@ export function BarchartDemographique({
   return (
     <div className="w-[80%] flex flex-col gap-3 ">
       <FilterDemographique />
-      <Bar className="bg-gray-100 rounded-xl p-4 border-2 border-gray-400" options={options} data={data} />
+      <Bar
+        className="bg-gray-100 rounded-xl p-4 border-2 border-gray-400"
+        options={options}
+        data={data}
+      />
     </div>
   );
 }

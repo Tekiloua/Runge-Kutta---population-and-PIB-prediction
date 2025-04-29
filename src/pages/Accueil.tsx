@@ -4,6 +4,7 @@ import { FileQuestion } from "lucide-react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import mada from "../assets/mada.png";
 
 function Accueil() {
   return (
@@ -11,12 +12,12 @@ function Accueil() {
       initial={{ opacity: 0, y: 30 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="h-full flex px-6"
+      className="relative h-scrren flex px-6 pt-20"
     >
       <div className="max-w-8xl w-full p-6 space-y-10">
         {/* Titre principal */}
         <div className="space-y-4">
-          <h1 className="text-4xl font-bold text-indigo-700">
+          <h1 className="text-4xl font-bold text-cyan-600">
             Prédiction du Taux Démographique de Madagascar
           </h1>
           <p className="text-lg text-gray-700">
@@ -25,7 +26,8 @@ function Accueil() {
               Runge-Kutta (RK4)
             </span>{" "}
             pour prédire l'évolution du taux démographique de Madagascar jusqu'à
-            l'an 2300, en se basant sur les données historiques de 1961 à 2023.
+            une année donnée, en se basant sur les données historiques de 1961 à
+            2023.
           </p>
           <p className="text-md text-gray-600">
             Le modèle repose sur une équation différentielle estimée à partir
@@ -33,8 +35,8 @@ function Accueil() {
             utilisant RK4, nous pouvons intégrer cette équation dans le temps et
             générer des prédictions précises sur le long terme.
           </p>
-          <div className="bg-indigo-100 p-4 rounded-lg border-l-4 border-indigo-400">
-            <p className="text-indigo-800 font-medium">
+          <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-indigo-400">
+            <p className="text-gray-900 font-medium">
               🔍 Objectif : Estimer le taux démographique futur en fonction du
               PIB avec un modèle numérique basé sur les données passées.
             </p>
@@ -49,8 +51,16 @@ function Accueil() {
           <p className="text-md text-gray-700">
             Les données exploitées proviennent des archives économiques et
             démographiques de Madagascar, couvrant la période de{" "}
-            <span className="font-medium text-indigo-600">1961 à 2023</span>.
-            Chaque enregistrement contient :
+            <span className="font-medium text-indigo-600">
+              {" "}
+              <a
+                href="https://donnees.banquemondiale.org/indicateur/NY.GDP.MKTP.KD.ZG?locations=MG"
+                className="link-primary"
+              >
+                1961 à 2023
+              </a>
+            </span>
+            . Chaque enregistrement contient :
           </p>
           <ul className="list-disc list-inside text-gray-600 space-y-1">
             <li>
@@ -86,17 +96,13 @@ function Accueil() {
         {/* Bouton call to action */}
         <div className="text-center">
           <Link to={"/simulation"}>
-            <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold px-8 py-3 rounded-xl shadow-md transition duration-200">
+            <button className="bg-cyan-600 hover:bg-cyan-700 text-white font-semibold px-8 py-3 rounded-xl shadow-md transition duration-200">
               🚀 Lancer la Simulation
             </button>
           </Link>
         </div>
-
-        {/* Footer */}
-        <p className="text-sm text-gray-400 text-center mt-4">
-          Réalisé avec ❤️ en React + TailwindCSS
-        </p>
       </div>
+      <img src={mada} className=" right-2 top-5" alt="" />
     </motion.div>
   );
 }

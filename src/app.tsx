@@ -19,45 +19,47 @@ import Intro from "./pages/Intro";
 import { useEffect, useState } from "react";
 import { Loader } from "./components/Loader";
 import { LoaderSquare } from "./components/LoaderSquare";
+import { GraphLoader } from "./components/GraphLoader";
 const Layout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const isIntroPage = location.pathname == "/";
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   useEffect(() => {
     const timeout = setTimeout(() => {
       navigate("/");
       setIsLoading(false);
-    }, 1200);
+    }, 20);
     return () => {
       clearTimeout(timeout);
     };
   }, []);
 
-  const [isRouteLoading, setRouteLoading] = useState<boolean>(false);
+  const [isRouteLoading, setRouteLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setRouteLoading(true);
     const timeout = setTimeout(() => {
       setRouteLoading(false);
-    }, 600); // Durée du loader entre les routes (tu peux ajuster)
+    }, 20); // Durée du loader entre les routes (tu peux ajuster)
 
     return () => clearTimeout(timeout);
   }, [location.pathname]);
 
+  const isIntroPage = location.pathname == "/";
+
   if (isLoading)
     return (
       <div className="w-full h-[98vh] flex items-center justify-center">
-        <LoaderSquare />
+        <GraphLoader />
       </div>
     );
 
   return (
     <div
-      className={`w-screen ${
+      className={`w-full ${
         !isIntroPage ? "grid grid-cols-[270px,1fr]" : null
-      } h-screen`}
+      } h-full`}
     >
       {/* Afficher Sidebar seulement si on n’est pas sur la page d’intro */}
       {!isIntroPage && <Sidebar />}
@@ -77,7 +79,7 @@ const Layout = () => {
         >
           {isRouteLoading ? (
             <div className="w-full h-[98vh] flex items-center justify-center">
-              <LoaderSquare />
+              <GraphLoader />
             </div>
           ) : (
             <Routes>

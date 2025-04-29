@@ -1,11 +1,26 @@
 import { useTypeBarchartSimulation } from "../store/useTypeBarchartSimulation";
 import { BarchartSimulation } from "../components/graphics/BarchartSimulation";
-import { Calendar, Coins, Search } from "lucide-react";
-import React, { useState } from "react";
-import { useRungeApply } from "../store/useRungeApply";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
+import { LoaderSquare } from "../components/LoaderSquare";
 
 export default function Simulation() {
+  const { isPending: isPendingTousGenres, data: dataTousGenres } = useQuery({
+    queryKey: ["TousGenres"],
+    queryFn: () => {
+      return window.electronAPI.fetchTousGenres(); // Appel à la fonction exposée dans preload
+    },
+  });
+
+  const { isPending: isPendingPib, data: dataPib } = useQuery({
+    queryKey: ["pib"],
+    queryFn: () => {
+      return window.electronAPI.fetchPibs(); // Appel à la fonction exposée dans preload
+    },
+  });
+
+  if (isPendingPib || isPendingTousGenres) return <LoaderSquare />;
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -17,15 +32,8 @@ export default function Simulation() {
         <h1 className="text-3xl font-bold">
           Experimenter et Regarder l'avenir de Madagascar
         </h1>
-        <p className="text-center">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Quibusdam
-          obcaecati delectus nam libero excepturi? Saepe ut ratione illum ipsa,
-          aut esse fuga eos eaque reiciendis repellendus quaerat dicta
-          praesentium recusandae!
-        </p>
       </div>
-      <div className="grid grid-cols-[380px,1fr] w-full gap-10">
-        <FormFilter />
+      <div className="flex w-full gap-10">
         <GraphiqueResultat />
       </div>
     </motion.div>
@@ -36,7 +44,7 @@ const GraphiqueResultat = () => {
   const { typeBarchart } = useTypeBarchartSimulation();
   return (
     <div className="w-[100%]">
-      <div className="p-3 bg-gradient-to-br from-blue-50 via-white to-blue-100 rounded-lg shadow-md w-full max-w-xl ">
+      {/* <div className="p-3 bg-gradient-to-br from-blue-50 via-white to-blue-100 rounded-lg shadow-md w-full max-w-xl ">
         <h2 className="text-lg font-semibold text-blue-700">
           🎯 Filtrer le type de courbe
         </h2>
@@ -68,12 +76,30 @@ const GraphiqueResultat = () => {
         </div>
 
         <div className="form-control mt-4">
-          <button className="btn btn-primary w-full">
+          <button className="btn bg-cyan-600 w-full text-white">
             🔍 Appliquer le filtre
           </button>
         </div>
+      </div> */}
+      <div className="flex flex-col gap-6 p-4">
+        <p>
+          En fonction des données que nous avons recolter , nous allons predire
+          les futur PIB et les futurs taux de croissance de Madagascar dans les
+          futurs années{" "}
+        </p>
+        <form action="">
+          <div className="flex gap-3 items-center border border-purple-400 rounded-md w-64 justify-center h-12">
+            <label htmlFor="" className="font-semibold">
+              2025 à{" "}
+            </label>
+            <input
+              type="number"
+              className="w-40 h-7 text-center rounded-lg border border-gray-700"
+              placeholder="2100"
+            />
+          </div>
+        </form>
       </div>
-
       <BarchartSimulation typeBarchart={typeBarchart} />
     </div>
   );
@@ -82,7 +108,7 @@ const GraphiqueResultat = () => {
 const FormFilter = () => {
   // const { typeBarchart } = useTypeBarchartSimulation();
   return (
-    <div className="bg-gradient-to-br from-blue-50 via-white to-blue-100 shadow-lg rounded-xl p-6 max-w-xl mt-6">
+    <div className="bg-gradient-to-br from-blue-50 via-white to-blue-100 shadow-lg rounded-xl p-6 max-w-xl mx-auto mt-6">
       <h2 className="text-3xl font-bold text-primary mb-6">🧮 Parametre</h2>
       <form className="space-y-6">
         <div className="form-control">
@@ -145,7 +171,7 @@ const FormFilter = () => {
         <div className="form-control mt-6">
           <button
             type="submit"
-            className="btn btn-primary w-full text-white text-lg"
+            className="btn bg-cyan-600 w-full text-white text-lg"
           >
             ▶️ Simuler
           </button>

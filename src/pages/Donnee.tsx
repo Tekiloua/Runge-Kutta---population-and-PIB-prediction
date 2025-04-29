@@ -59,13 +59,15 @@ const TabDonneeDemographique = () => {
   return (
     <div className=" border shadow-lg h-[650px] rounded-lg overflow-scroll bg-base-100 ">
       <table className="relative table w-full">
-        <tr className="bg-gray-200 border-b border-b-black w-[750px]">
-          <td className="w-[150px] text-center">Id</td>
-          <td className="w-[150px] text-center">Année</td>
-          <td className="w-[150px] text-center">Age</td>
-          <td className="w-[150px] text-center">Taux (%)</td>
-          <td className="w-[150px] text-center">Etat</td>
-        </tr>
+        <thead>
+          <tr className="bg-gray-200 border-b border-b-black w-[750px]">
+            <td className="w-[150px] text-center py-3">Id</td>
+            <td className="w-[150px] text-center py-3">Année</td>
+            <td className="w-[150px] text-center py-3">Age</td>
+            <td className="w-[150px] text-center py-3">Taux (%)</td>
+            <td className="w-[150px] text-center py-3">Etat</td>
+          </tr>
+        </thead>
         <tbody>
           {dataFiltered.map((data, i) => {
             const tag = data.tag;
@@ -97,7 +99,7 @@ const TabDonneeDemographique = () => {
                   ) : i > 0 && filtreDonnee == "1961 à 2023" ? (
                     <TrendingUp className="text-green-400" />
                   ) : (
-                    <span className="status status-success"></span>
+                    <span className="text-center">🟢</span>
                   )}
                 </td>
               </tr>
@@ -124,12 +126,14 @@ const TabDonneePIB = () => {
   return (
     <div className="shadow-xl border rounded-lg bg-base-100 h-[650px] overflow-scroll">
       <table className="relative table w-full">
-        <tr className="bg-gray-200 border-b border-b-black w-[750px]">
-          <td className="w-[150px] text-center">Id</td>
-          <td className="w-[150px] text-center">Année</td>
-          <td className="w-[150px] text-center">Taux (%)</td>
-          <td className="w-[150px] text-center">Etat</td>
-        </tr>
+        <thead>
+          <tr className="bg-gray-200 border-b border-b-black w-[750px]">
+            <td className="w-[150px] text-center py-3">Id</td>
+            <td className="w-[150px] text-center py-3">Année</td>
+            <td className="w-[150px] text-center py-3">Taux (%)</td>
+            <td className="w-[150px] text-center py-3">Etat</td>
+          </tr>
+        </thead>
         <tbody>
           {dataFiltered.map((data, i) => {
             let down: boolean = false;
@@ -155,7 +159,7 @@ const TabDonneePIB = () => {
                   ) : i > 0 ? (
                     <TrendingUp className="text-green-400" />
                   ) : (
-                    <span className="status status-success"></span>
+                    <span className="text-center">🟢</span>
                   )}
                 </td>
               </tr>
@@ -238,7 +242,7 @@ const FilterDonnee = () => {
   return (
     <div
       role="tablist"
-      className="shadow-lg tabs tabs-box border border-base-400 bg-gray-100"
+      className="shadow-lg grid grid-cols-10 p-2 gap-2 border border-base-400 bg-gray-100"
     >
       {annees.map((annee, i) => (
         <a
@@ -247,10 +251,8 @@ const FilterDonnee = () => {
           onClick={(e) => {
             setFiltreDonnee(annee);
           }}
-          className={`tab ${
-            filtreDonnee == annee
-              ? "tab-active border border-purple-300 "
-              : null
+          className={`bg-base-200 text-center rounded-lg p-2 ${
+            filtreDonnee == annee ? "bg-white border border-purple-300 " : null
           }`}
         >
           <span className={` ${filtreDonnee == annee ? "text-black" : null}`}>

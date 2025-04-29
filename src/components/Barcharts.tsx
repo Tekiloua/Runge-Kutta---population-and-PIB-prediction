@@ -3,59 +3,90 @@ import { BarchartPIB } from "./graphics/BarchartPIB";
 import { BarchartDemographique } from "./graphics/BarchartDemographique";
 import { useFiltre } from "../store/useFiltreDemographique";
 import Timeline from "./Timeline";
+import { useQuery } from "@tanstack/react-query";
+import { LoaderSquare } from "./LoaderSquare";
+import { data } from "react-router-dom";
+
+type Person = {
+  id: number;
+  tag: string;
+  year: string;
+  value: number;
+};
 
 export default function Barcharts() {
-  const { filtre } = useFiltre(); // State global utilisant zustand
-  const masculinTab = [
-    34, 30, 25, 28, 26, 22, 18, 17, 15, 16, 14, 13, 13, 13, 12, 11, 11, 10, 9,
-    9, 8, 9, 7, 7, 6, 8, 10, 12, 15,
-  ];
-  const femininTab = [
-    13, 14, 16, 17, 20, 18, 18, 20, 19, 22, 24, 19, 16, 18, 23, 28, 32, 30, 35,
-    33, 32, 29, 27, 30, 35, 38, 39, 36, 35,
-  ];
-  const tousGenreTab = [
-    39, 12, 27, 8, 33, 19, 1, 40, 14, 3, 26, 31, 9, 6, 18, 22, 36, 30, 13, 7,
-    23, 37, 11, 20, 15, 38, 2, 16, 25,
-  ];
+  const { filtre } = useFiltre();
+  const { isPending: isPendingTousGenres, data: dataTousGenres } = useQuery({
+    queryKey: ["TousGenres"],
+    queryFn: () => {
+      return window.electronAPI.fetchTousGenres(); // Appel à la fonction exposée dans preload
+    },
+  });
 
-  const madaPIBtab = [
-    2.04863275061248, 2.27106970111232, -0.929401622790394, 3.96251884651457,
+  const { isPending: isPendingHomme, data: dataHomme } = useQuery({
+    queryKey: ["hommes"],
+    queryFn: () => {
+      return window.electronAPI.fetchHommes(); // Appel à la fonction exposée dans preload
+    },
+  });
 
-    -0.452253863397502, 2.06455240789826, 5.52856560967709, 6.8287860983493,
+  const { isPending: isPendingFemme, data: dataFemme } = useQuery({
+    queryKey: ["femmes"],
+    queryFn: () => {
+      return window.electronAPI.fetchFemmes(); // Appel à la fonction exposée dans preload
+    },
+  });
 
-    3.72122216809368, 5.27645557543077, 3.92936503078364, -1.27262153096891,
+  const { isPending: isPendingPib, data: dataPib } = useQuery({
+    queryKey: ["pib"],
+    queryFn: () => {
+      return window.electronAPI.fetchPibs(); // Appel à la fonction exposée dans preload
+    },
+  });
 
-    -2.61847832966285, 2.00687937961095, 1.25869163453154, -3.06885839129959,
+  if (isPendingHomme || isPendingFemme || isPendingPib || isPendingTousGenres) {
+    return <LoaderSquare />;
+  }
 
-    2.36400035834046, -2.66180596408321, 9.85465029443104, 0.952707585446319,
-
-    -9.80000000085953, -1.90000000001299, 0.899999999396201, 1.76018194295042,
-
-    1.15634413876586, 1.96022488163399, 1.17491326106625, 3.40692921036734,
-
-    4.07488065683054, 3.12890505042525, -6.30635159237733, 1.18088494825233,
-
-    2.09992318110865, -0.042101302622072, 1.67859232120303, 2.15420447175147,
-
-    3.69349261691789, 3.91707460516817, 4.69922703680521, 4.45685893956946,
-
-    5.98023576982733, -12.4079711055149, 9.78489212474175, 5.25700362208742,
-
-    4.75584509499119, 5.3985084485368, 5.71056419885052, 6.71263253913001,
-
-    -3.9787086116544, 0.619239744622121, 1.57842705366555, 3.01114811621208,
-
-    2.30037622800727, 3.33920311195367, 3.13229807490305, 3.99314606199499,
-
-    3.93330759462793, 3.19435651744398, 4.41123212909589, -7.13767162064489,
-
-    5.73961573854336, 3.99999999869678, 3.80000000009488,
-  ];
+  const tab0_4ans = dataTousGenres.filter(
+    (item: Person) => item.tag === "0 à 4"
+  );
+  const tab5_9ans = dataTousGenres.filter(
+    (item: Person) => item.tag === "5 à 9"
+  );
+  const tab10_14ans = dataTousGenres.filter(
+    (item: Person) => item.tag === "10 à 14"
+  );
+  const tab15_19ans = dataTousGenres.filter(
+    (item: Person) => item.tag === "15 à 19"
+  );
+  const tab20_24ans = dataTousGenres.filter(
+    (item: Person) => item.tag === "20 à 24"
+  );
+  const tab25_29ans = dataTousGenres.filter(
+    (item: Person) => item.tag === "25 à 29"
+  );
+  const tab30_34ans = dataTousGenres.filter(
+    (item: Person) => item.tag === "30 à 34"
+  );
+  const tab35_39ans = dataTousGenres.filter(
+    (item: Person) => item.tag === "35 à 39"
+  );
+  const tab40_44ans = dataTousGenres.filter(
+    (item: Person) => item.tag === "40 à 44"
+  );
+  const tab45_49ans = dataTousGenres.filter(
+    (item: Person) => item.tag === "45 à 49"
+  );
+  const tab50_64ans = dataTousGenres.filter(
+    (item: Person) => item.tag === "50 à 64"
+  );
+  const tab65ans_plus = dataTousGenres.filter(
+    (item: Person) => item.tag === "+ 65"
+  );
 
   return (
     <div className="w-full flex flex-col gap-20 items-center mb-24">
-      {}
       <div className="w-full flex flex-col items-center gap-3">
         <div className="w-full mb-6 flex flex-col items-center">
           <h1 className="font-bold text-[32px] mb-2 text-primary">
@@ -76,10 +107,9 @@ export default function Barcharts() {
               faiblesses de l'économie malgache, et pour orienter les décisions
               politiques et économiques. En observant ces données, vous pouvez
               mieux saisir les impacts des réformes économiques et des
-              événements mondiaux sur l'économie de Madagascar.
-              Le graphique ci dessous représente la valeur du PIB de Madagascar
-              chaque année depuis 1961 à 2023 , ces données proviennent du site
-              officiels du{" "}
+              événements mondiaux sur l'économie de Madagascar. Le graphique ci
+              dessous représente la valeur du PIB de Madagascar chaque année
+              depuis 1961 à 2023 , ces données proviennent du site officiels du{" "}
               <a
                 href="https://donnees.banquemondiale.org/indicateur/NY.GDP.MKTP.KD.ZG?locations=MG"
                 className="link-primary"
@@ -92,10 +122,8 @@ export default function Barcharts() {
             </p>
           </div>
         </div>
-        <BarchartPIB dataProps={madaPIBtab} />
+        <BarchartPIB dataProps={dataPib} />
       </div>
-
-      <Timeline />
       <div className="w-full flex flex-col items-center gap-3">
         <div className="w-full flex flex-col items-center text-center mb-6">
           <h1 className="font-bold text-[32px] mb-2 text-primary">
@@ -109,13 +137,40 @@ export default function Barcharts() {
         <BarchartDemographique
           dataProps={
             filtre == "Masculin"
-              ? masculinTab
+              ? dataHomme
               : filtre == "Feminin"
-              ? femininTab
-              : tousGenreTab
+              ? dataFemme
+              : filtre == "Tous les genres"
+              ? dataTousGenres
+              : filtre == "0 à 4"
+              ? tab0_4ans
+              : filtre == "5 à 9"
+              ? tab5_9ans
+              : filtre == "10 à 14"
+              ? tab10_14ans
+              : filtre == "15 à 19"
+              ? tab15_19ans
+              : filtre == "20 à 24"
+              ? tab20_24ans
+              : filtre == "25 à 29"
+              ? tab25_29ans
+              : filtre == "30 à 34"
+              ? tab30_34ans
+              : filtre == "35 à 39"
+              ? tab35_39ans
+              : filtre == "40 à 44"
+              ? tab40_44ans
+              : filtre == "45 à 49"
+              ? tab45_49ans
+              : filtre == "50 à 64"
+              ? tab50_64ans
+              : filtre == "+ 65"
+              ? tab65ans_plus
+              : dataTousGenres
           }
         />
       </div>
+      <button className="btn btn-primary">ok</button>
     </div>
   );
 }

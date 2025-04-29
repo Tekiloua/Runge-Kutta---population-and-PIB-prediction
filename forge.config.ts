@@ -26,6 +26,14 @@ const config: ForgeConfig = {
       config: {},
     },
   ],
+
+
+
+
+  // electron builder windows
+  // electron maker windows
+
+
   plugins: [
     new VitePlugin({
       // `build` can specify multiple entry builds, which can be Main process, Preload scripts, Worker process, etc.

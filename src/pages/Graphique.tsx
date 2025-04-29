@@ -10,6 +10,7 @@ export const Graphique = () => {
       className="flex flex-col"
     >
       <Barcharts />
+      
     </motion.div>
   );
 };

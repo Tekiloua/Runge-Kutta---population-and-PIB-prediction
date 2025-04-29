@@ -27,7 +27,7 @@ export default function Sidebar({ className }: SideBarProps) {
         <div className="logo flex w-full gap-4 justify-center items-center">
           <UsersRound className="size-10" />
           <span className="flex flex-col">
-            <span className="font-semibold text-xl">Population State</span>
+            <span className="font-semibold text-xl text-green-700">Population State</span>
             <span className="text-sm">Madagascar</span>
           </span>
         </div>
@@ -44,7 +44,7 @@ const Links = () => {
       <Link
         to={"/app"}
         className={`flex w-[80%] bg-base-100/70  rounded-xl mx-[5%] p-2 border border-gray-400 gap-3 ${
-          location.pathname == "/app" ? "bg-primary text-white" : null
+          location.pathname == "/app" ? "bg-indigo-600 text-white" : null
         }`}
       >
         <House className={``} />
@@ -53,7 +53,7 @@ const Links = () => {
       <Link
         to={"/algorithme"}
         className={`flex w-[80%] bg-base-100/70   rounded-xl mx-[5%] p-2 border border-gray-400 gap-3 ${
-          location.pathname == "/algorithme" ? "bg-primary text-white" : null
+          location.pathname == "/algorithme" ? "bg-indigo-600 text-white" : null
         }`}
       >
         <Code className={``} />
@@ -62,7 +62,7 @@ const Links = () => {
       <Link
         to="/graphique"
         className={`flex w-[80%] bg-base-100/70  rounded-xl mx-[5%] p-2 border border-gray-400 gap-3 ${
-          location.pathname == "/graphique" ? "bg-primary text-white" : null
+          location.pathname == "/graphique" ? "bg-indigo-600 text-white" : null
         }`}
       >
         <ChartNoAxesCombined className={``} />
@@ -71,7 +71,7 @@ const Links = () => {
       <Link
         to={"/simulation"}
         className={`flex w-[80%] bg-base-100/70   rounded-xl mx-[5%] p-2 border border-gray-400 gap-3 ${
-          location.pathname == "/simulation" ? "bg-primary text-white" : null
+          location.pathname == "/simulation" ? "bg-indigo-600 text-white" : null
         }`}
       >
         <FlaskConical className={``} />
@@ -81,7 +81,7 @@ const Links = () => {
       <Link
         to="/donnee"
         className={`flex items-center w-[80%] bg-base-100/70   rounded-xl mx-[5%] p-2 border border-gray-400 gap-3 ${
-          location.pathname == "/donnee" ? "bg-primary text-white" : null
+          location.pathname == "/donnee" ? "bg-indigo-600 text-white" : null
         }`}
       >
         <Database className={``} /> <span className="">Données</span>

@@ -5,145 +5,61 @@ export default function FilterDemographique() {
   const { setFiltre } = useFiltre();
   return (
     <div className="flex gap-3 items-center">
-      <div className="dropdown dropdown-hover">
+      <div className="">
         <div
           tabIndex={0}
           role="button"
-          className="btn btn-outline btn-primary m-1"
+          className="flex items-center mb-1 gap-3 bg-purple-600 text-white rounded-lg p-2"
         >
-          Genre
+          <Funnel className="text-primary size-5" /> FiltresGenre
         </div>
-        <ul
+        <select
+          onChange={(e) => {
+            setFiltre(e.target.value);
+          }}
           tabIndex={0}
-          className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+          className="bg-base-100 rounded-lg z-1 w-52 p-2 shadow-sm border border-purple-400"
         >
-          <li>
-            <a
-              onClick={() => {
-                setFiltre("Masculin");
-              }}
-            >
-              Masculin
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={() => {
-                setFiltre("Feminin");
-              }}
-            >
-              Feminin
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={() => {
-                setFiltre("Tous les genres");
-              }}
-            >
-              Tous les genres
-            </a>
-          </li>
-        </ul>
+          <option value={"Masculin"}>Masculin</option>
+          <option value={"Feminin"}>Feminin</option>
+          <option value={"Tous les genres"}>Tous les genres</option>
+        </select>
       </div>
-      <div className="dropdown dropdown-hover">
+      <div className="">
         <div
-          tabIndex={0}
           role="button"
-          className="btn btn-outline btn-primary m-1"
+          className="flex items-center mb-1 gap-3 bg-purple-600 text-white rounded-lg p-2"
         >
-          Age
+          <Funnel className="text-primary size-5" /> Filtres Age
         </div>
-        <ul
-          tabIndex={0}
-          className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+        <select
+          onChange={(e) => {
+            setFiltre(e.target.value);
+          }}
+          className="bg-base-100 rounded-lg z-1 w-52 p-2 shadow-sm border border-purple-400"
         >
-          <li>
-            <a
-              onClick={() => {
-                setFiltre("-3");
-              }}
-            >
-              moins de 3 ans
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={() => {
-                setFiltre("4 - 9 ans");
-              }}
-            >
-              4 - 9 ans
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={() => {
-                setFiltre("10 - 17 ans");
-              }}
-            >
-              10 - 17 ans
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={() => {
-                setFiltre("18 - 23 ans");
-              }}
-            >
-              18 - 23 ans
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={() => {
-                setFiltre("24 - 32 ans");
-              }}
-            >
-              24 - 32 ans
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={() => {
-                setFiltre("33 - 45 ans");
-              }}
-            >
-              33 - 45 ans
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={() => {
-                setFiltre("46 - 64 ans");
-              }}
-            >
-              46 - 64 ans
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={() => {
-                setFiltre("plus de 65 ans");
-              }}
-            >
-              plus de 65 ans
-            </a>
-          </li>
-          <li>
-            <a
-              onClick={() => {
-                setFiltre("Tous les ages");
-              }}
-            >
-              Tous les ages
-            </a>
-          </li>
-        </ul>
+          <option value={"0 à 4"}>0 à 4</option>
+          <option
+            value={"5 à 9"}
+            onClick={() => {
+              setFiltre("5 à 9");
+            }}
+          >
+            5 à 9
+          </option>
+          <option value={"10 à 14"}>10 à 14</option>
+          <option value={"15 à 19"}>15 à 19</option>
+          <option value={"20 à 24"}>20 à 24</option>
+          <option value={"25 à 29"}>25 à 29</option>
+          <option value={"30 à 34"}>30 à 34</option>
+          <option value={"35 à 39"}>35 à 39</option>
+          <option value={"40 à 44"}>40 à 44</option>
+          <option value={"45 à 49"}>45 à 49</option>
+          <option value={"50 à 64"}>50 à 64</option>
+          <option value={"+ 65"}>+ 65</option>
+          <option value={"Tous les ages"}>Tous les ages</option>
+        </select>
       </div>
-      <button className="btn btn-soft btn-ghost">
-        <Funnel className="text-primary size-5" /> Filtres
-      </button>
     </div>
   );
 }

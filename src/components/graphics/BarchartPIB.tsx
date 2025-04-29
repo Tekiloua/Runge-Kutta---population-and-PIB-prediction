@@ -100,18 +100,25 @@ const labels = [
   "2023",
 ];
 
+type PibType = {
+  id: number;
+  year: string;
+  value: number;
+};
+
 interface BarchartPIBProps {
-  dataProps: Array<number>;
+  dataProps: Array<PibType>;
 }
 
 export function BarchartPIB({ dataProps }: BarchartPIBProps) {
+  const data2: Array<number> = dataProps.map((item) => item.value);
   const data = {
     labels,
     datasets: [
       {
         label: "PIB",
         // data: labels.map(() => faker.number.int({ min: 0, max: 1000 })),
-        data: dataProps,
+        data: data2,
         backgroundColor: "rgba(0, 34, 145, 0.5)",
       },
     ],
@@ -119,7 +126,7 @@ export function BarchartPIB({ dataProps }: BarchartPIBProps) {
   return (
     <div className="w-[80%] flex">
       <Bar
-        className="bg-gray-100 rounded-xl p-4 border-2 border-gray-400 "
+        className="bg-gray-100 rounded-xl p-4 border-2 border-gray-400"
         options={options}
         data={data}
       />

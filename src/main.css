@@ -1,12 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@plugin "daisyui";
-
-body {
-  background: rgb(60,60,60);
+@plugin "daisyui" {
+  themes: light --default, dark --prefersdark, cupcake;
 }
 
+
+
+/* 
 .box5532 {
   fill: currentColor;
   transform-origin: 50% 50%;
@@ -460,4 +461,4 @@ body {
 
 .box5532:nth-child(9) {
   animation: box5532-9 4s infinite;
-}
+}  */
