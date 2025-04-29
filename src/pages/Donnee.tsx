@@ -3,6 +3,7 @@ import { TrendingDownIcon, TrendingUp } from "lucide-react";
 import { data_all } from "../../data_tous_genres";
 import { data_pib } from "../../data_pib";
 import { motion } from "framer-motion";
+import { useQuery } from "@tanstack/react-query";
 
 export const Donnee = () => {
   return (
@@ -48,6 +49,14 @@ const backgroundAges: Array<string> = [
 type DataTypeDemographique = { year: string; tag: string; value: number };
 
 const TabDonneeDemographique = () => {
+
+  const { isPending: isPendingTousGenres, data: dataTousGenres } = useQuery({
+    queryKey: ["TousGenres"],
+    queryFn: () => {
+      return window.electronAPI.fetchTousGenres(); // Appel à la fonction exposée dans preload
+    },
+  });
+
   let indexColor = 0;
   const { filtreDonnee } = useFiltreDonnee();
   let dataFiltered: Array<DataTypeDemographique> = [];
