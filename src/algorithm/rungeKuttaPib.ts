@@ -1,21 +1,24 @@
 type PibEntry = {
     year: string;
     value: number;
+    createdAt:Date;
+    updatedAt:Date;
+    id:number
   };
   
-  type Prediction = {
+  export type Prediction = {
     year: number;
     value: number;
   };
   
- export function rungeKuttaPib(pibTab: PibEntry[]): Prediction[] {
+ export function rungeKuttaPib(pibTab: PibEntry[],targetYear:number): Prediction[] {
     // Tri au cas où le tableau n'est pas ordonné
     const sorted = [...pibTab].sort((a, b) => parseInt(a.year) - parseInt(b.year));
   
     const lastYear = parseInt(sorted[sorted.length - 1].year);
     const y0 = 3.8; // Valeur de départ arbitraire (ex : PIB indexé à 100)
     const t0 = lastYear + 1;
-    const tEnd = 2090;
+    const tEnd = targetYear;
     const h = 1;
   
     const getGrowthRate = (year: number): number => {

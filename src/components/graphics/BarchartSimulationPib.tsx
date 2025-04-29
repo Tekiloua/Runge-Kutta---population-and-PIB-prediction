@@ -10,8 +10,8 @@ import {
   Legend,
 } from "chart.js";
 import { Bar, Line } from "react-chartjs-2";
-import { PopulationPrediction} from "../../algorithm/rungeKuttaPopulation";
 import { useTargetPrediction } from "../../store/useTargetPrediction";
+import { Prediction } from "../../algorithm/rungeKuttaPib";
 
 ChartJS.register(
   CategoryScale,
@@ -31,17 +31,17 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Prediction de la population",
+      text: "Prediction de PIB",
     },
   },
 };
 
 interface BarchartSimulationProps {
   typeBarchart: string;
-  datas: PopulationPrediction[];
+  datas: Prediction[];
 }
 
-export const BarchartSimulation: FC<BarchartSimulationProps> = ({
+export const BarchartSimulationPib: FC<BarchartSimulationProps> = ({
   typeBarchart,
   datas,
 }) => {
@@ -84,9 +84,9 @@ export const BarchartSimulation: FC<BarchartSimulationProps> = ({
     labels,
     datasets: [
       {
-        label: "Population",
+        label: "PIB",
         data: data2,
-        backgroundColor: "rgba(128, 0, 132, 0.5)",
+        backgroundColor: "rgba(10, 66, 150, 0.5)",
       },
     ],
   };

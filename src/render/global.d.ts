@@ -7,6 +7,7 @@ declare global {
       fetchHommes: () => Promise<Person[]>;
       fetchPibs: () => Promise<PibType[]>;
       fetchTousGenres: () => Promise<Person[]>;
+      fetchPopulations: () => Promise<PibType[]>;
     };
   }
 }

@@ -65,3 +65,17 @@ export const getTousGenres = async () => {
     if (conn) conn.release();
   }
 };
+
+export const getPopulations = async () => {
+  let conn;
+  try {
+    conn = await pool.getConnection();
+    const rows = await conn.query("SELECT * FROM Populations");
+    return rows;
+  } catch (err) {
+    console.error("Erreur de requête:", err);
+    return [];
+  } finally {
+    if (conn) conn.release();
+  }
+};

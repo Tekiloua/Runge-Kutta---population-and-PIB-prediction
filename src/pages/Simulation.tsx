@@ -3,17 +3,13 @@ import { BarchartSimulation } from "../components/graphics/BarchartSimulation";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 import { LoaderSquare } from "../components/LoaderSquare";
-import { predireCroissance } from "../algorithm/RungeKutta";
+import { Prediction, rungeKuttaPib } from "../algorithm/rungeKuttaPib";
 import {
-  calculerTauxCroissancePIB,
-  calculerTauxCroissancePopulation,
-  taux,
-} from "../algorithm/Taux";
-import { dataPopulation } from "../../data_population";
-import { data_pib } from "../../data_pib";
-import { data } from "react-router-dom";
-import { rungeKuttaPib } from "../algorithm/rungeKuttaPib";
-import { rungeKuttaPopulation } from "../algorithm/rungeKuttaPopulation";
+  PopulationPrediction,
+  rungeKuttaPopulation,
+} from "../algorithm/rungeKuttaPopulation";
+import { useTargetPrediction } from "../store/useTargetPrediction";
+import { BarchartSimulationPib } from "../components/graphics/BarchartSimulationPib";
 
 export default function Simulation() {
   //Le premier argument est un tableau d'objets contenant les données historiques de Madagascar
@@ -22,13 +18,7 @@ export default function Simulation() {
   //Le quatrieme argument est le pas de calcul
   //Le cinquieme argument est le nombre d'années futures à predire
   // const predictions = predireCroissance(donneesHistoriques, 31195932, 3, 1, 300);
-
-  const { isPending: isPendingTousGenres, data: dataTousGenres } = useQuery({
-    queryKey: ["TousGenres"],
-    queryFn: () => {
-      return window.electronAPI.fetchTousGenres(); // Appel à la fonction exposée dans preload
-    },
-  });
+  const { target: targetYear } = useTargetPrediction();
 
   const { isPending: isPendingPib, data: dataPib } = useQuery({
     queryKey: ["pib"],
@@ -37,12 +27,21 @@ export default function Simulation() {
     },
   });
 
-  if (isPendingPib || isPendingTousGenres) return <LoaderSquare />;
+  const { isPending: isPendingPopulation, data: dataPopulation } = useQuery({
+    queryKey: ["population"],
+    queryFn: () => {
+      return window.electronAPI.fetchPopulations(); // Appel à la fonction exposée dans preload
+    },
+  });
 
-  const predictionsPIB = rungeKuttaPib(data_pib);
-  console.log("PIB predictions : ", predictionsPIB);
-  const predictionsPopulation = rungeKuttaPopulation(dataPopulation);
-  console.log("Population predictions : ", predictionsPopulation);
+  if (isPendingPib || isPendingPopulation) return <LoaderSquare />;
+
+  const predictionsPib = rungeKuttaPib(dataPib, targetYear);
+
+  const predictionsPopulation = rungeKuttaPopulation(
+    dataPopulation,
+    targetYear
+  );
 
   return (
     <motion.div
@@ -57,14 +56,24 @@ export default function Simulation() {
         </h1>
       </div>
       <div className="flex w-full gap-10">
-        <GraphiqueResultat />
+        <GraphiqueResultat
+          data={predictionsPopulation}
+          data2={predictionsPib}
+        />
       </div>
     </motion.div>
   );
 }
 
-const GraphiqueResultat = () => {
+const GraphiqueResultat = ({
+  data,
+  data2,
+}: {
+  data: PopulationPrediction[];
+  data2: Prediction[];
+}) => {
   const { typeBarchart } = useTypeBarchartSimulation();
+  const { setTarget } = useTargetPrediction();
   return (
     <div className="w-[100%]">
       {/* <div className="p-3 bg-gradient-to-br from-blue-50 via-white to-blue-100 rounded-lg shadow-md w-full max-w-xl ">
@@ -112,18 +121,30 @@ const GraphiqueResultat = () => {
         </p>
         <form action="">
           <div className="flex gap-3 items-center border border-purple-400 rounded-md w-64 justify-center h-12">
-            <label htmlFor="" className="font-semibold">
-              2025 à{" "}
+            <label
+              htmlFor=""
+              className="font-semibold flex items-center w-16 rounded-md"
+            >
+              2025 {"    à "}
             </label>
-            <input
-              type="number"
-              className="w-40 h-7 text-center rounded-lg border border-gray-700"
-              placeholder="2100"
-            />
+            <select className="w-24 p-2 rounded-md text-white bg-purple-500"
+              onChange={(e) => {
+                const target = parseInt(e.target.value);
+                setTarget(target);
+              }}
+            >
+              <option value={2050}>2050</option>
+              <option value={2100}>2100</option>
+              <option value={2150}>2150</option>
+              <option value={2200}>2200</option>
+              <option value={2250}>2250</option>
+              <option value={2300}>2300</option>
+            </select>
           </div>
         </form>
       </div>
-      <BarchartSimulation typeBarchart={typeBarchart} />
+      <BarchartSimulationPib typeBarchart={typeBarchart} datas={data2} />
+      <BarchartSimulation typeBarchart={typeBarchart} datas={data} />
     </div>
   );
 };

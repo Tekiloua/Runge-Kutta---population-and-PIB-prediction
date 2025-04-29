@@ -1,7 +1,5 @@
 import { useFiltreDonnee } from "../store/useFiltreDonne";
 import { TrendingDownIcon, TrendingUp } from "lucide-react";
-import { data_all } from "../../data_tous_genres";
-import { data_pib } from "../../data_pib";
 import { motion } from "framer-motion";
 import { useQuery } from "@tanstack/react-query";
 
@@ -60,7 +58,7 @@ const TabDonneeDemographique = () => {
   let indexColor = 0;
   const { filtreDonnee } = useFiltreDonnee();
   let dataFiltered: Array<DataTypeDemographique> = [];
-  data_all.forEach((data) => {
+  dataTousGenres.forEach((data) => {
     if (filtreDonnee == "1961 à 2023") dataFiltered.push(data);
     else if (data.year == filtreDonnee) dataFiltered.push(data);
   });
@@ -82,9 +80,9 @@ const TabDonneeDemographique = () => {
             const tag = data.tag;
             let down: boolean = false;
             if (i > 0) {
-              const prevTag = data_all[i - 1].tag;
+              const prevTag = dataTousGenres[i - 1].tag;
               if (prevTag !== tag) indexColor++;
-              const prevValue = data_all[i - 1].value;
+              const prevValue = dataTousGenres[i - 1].value;
               if (prevValue > data.value) down = true;
             }
 
@@ -127,8 +125,14 @@ type DataTypePIB = {
 
 const TabDonneePIB = () => {
   const { filtreDonnee } = useFiltreDonnee();
+  const { isPending: isPendingPib, data: dataPib } = useQuery({
+      queryKey: ["pib"],
+      queryFn: () => {
+        return window.electronAPI.fetchPibs(); // Appel à la fonction exposée dans preload
+      },
+    });
   let dataFiltered: Array<DataTypePIB> = [];
-  data_pib.forEach((data) => {
+  dataPib.forEach((data) => {
     if (filtreDonnee == "1961 à 2023") dataFiltered.push(data);
     else if (data.year == filtreDonnee) dataFiltered.push(data);
   });
@@ -147,7 +151,7 @@ const TabDonneePIB = () => {
           {dataFiltered.map((data, i) => {
             let down: boolean = false;
             if (i > 0) {
-              const prevValue = data_pib[i - 1].value;
+              const prevValue = dataPib[i - 1].value;
               if (prevValue > data.value) down = true;
             }
 

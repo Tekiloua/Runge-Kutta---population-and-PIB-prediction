@@ -7,4 +7,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
   fetchHommes: () => ipcRenderer.invoke("fetch-hommes"),
   fetchPibs: () => ipcRenderer.invoke("fetch-pibs"),
   fetchTousGenres: () => ipcRenderer.invoke("fetch-tousgenres"),
+  fetchPopulations: () => ipcRenderer.invoke("fetch-populations"),
 });

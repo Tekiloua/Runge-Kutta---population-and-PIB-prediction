@@ -1,6 +1,6 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import path from "node:path";
-import { getFemmes, getHommes, getPibs  ,getTousGenres} from "./db/database";
+import { getFemmes, getHommes, getPibs  ,getTousGenres ,getPopulations} from "./db/database";
 // import { server } from "./db/sequelize";
 
 // import started from "electron-squirrel-startup";
@@ -29,6 +29,12 @@ ipcMain.handle("fetch-pibs", async () => {
   const pibs = await getPibs();
   return pibs;
 });
+
+ipcMain.handle("fetch-populations", async () => {
+  const populations = await getPopulations();
+  return populations;
+});
+
 
 const createWindow = () => {
   // Create the browser window.
