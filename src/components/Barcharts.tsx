@@ -1,11 +1,11 @@
-import React from "react";
 import { BarchartPIB } from "./graphics/BarchartPIB";
 import { BarchartDemographique } from "./graphics/BarchartDemographique";
 import { useFiltre } from "../store/useFiltreDemographique";
-import Timeline from "./Timeline";
-import { useQuery } from "@tanstack/react-query";
-import { LoaderSquare } from "./LoaderSquare";
-import { data } from "react-router-dom";
+// import { useQuery } from "@tanstack/react-query";
+import { data_all as dataTousGenres } from "../db/data_tous_genres";
+import { data_homme as dataHomme } from "../db/data_hommes";
+import { data_femme as dataFemme } from "../db/data_femmes";
+import { data_pib as dataPib } from "../db/data_pib";
 
 type Person = {
   id: number;
@@ -16,37 +16,37 @@ type Person = {
 
 export default function Barcharts() {
   const { filtre } = useFiltre();
-  const { isPending: isPendingTousGenres, data: dataTousGenres } = useQuery({
-    queryKey: ["TousGenres"],
-    queryFn: () => {
-      return window.electronAPI.fetchTousGenres(); // Appel à la fonction exposée dans preload
-    },
-  });
+  // const { isPending: isPendingTousGenres, data: dataTousGenres } = useQuery({
+  //   queryKey: ["TousGenres"],
+  //   queryFn: () => {
+  //     return window.electronAPI.fetchTousGenres(); // Appel à la fonction exposée dans preload
+  //   },
+  // });
 
-  const { isPending: isPendingHomme, data: dataHomme } = useQuery({
-    queryKey: ["hommes"],
-    queryFn: () => {
-      return window.electronAPI.fetchHommes(); // Appel à la fonction exposée dans preload
-    },
-  });
+  // const { isPending: isPendingHomme, data: dataHomme } = useQuery({
+  //   queryKey: ["hommes"],
+  //   queryFn: () => {
+  //     return window.electronAPI.fetchHommes(); // Appel à la fonction exposée dans preload
+  //   },
+  // });
 
-  const { isPending: isPendingFemme, data: dataFemme } = useQuery({
-    queryKey: ["femmes"],
-    queryFn: () => {
-      return window.electronAPI.fetchFemmes(); // Appel à la fonction exposée dans preload
-    },
-  });
+  // const { isPending: isPendingFemme, data: dataFemme } = useQuery({
+  //   queryKey: ["femmes"],
+  //   queryFn: () => {
+  //     return window.electronAPI.fetchFemmes(); // Appel à la fonction exposée dans preload
+  //   },
+  // });
 
-  const { isPending: isPendingPib, data: dataPib } = useQuery({
-    queryKey: ["pib"],
-    queryFn: () => {
-      return window.electronAPI.fetchPibs(); // Appel à la fonction exposée dans preload
-    },
-  });
+  // const { isPending: isPendingPib, data: dataPib } = useQuery({
+  //   queryKey: ["pib"],
+  //   queryFn: () => {
+  //     return window.electronAPI.fetchPibs(); // Appel à la fonction exposée dans preload
+  //   },
+  // });
 
-  if (isPendingHomme || isPendingFemme || isPendingPib || isPendingTousGenres) {
-    return <LoaderSquare />;
-  }
+  // if (isPendingHomme || isPendingFemme || isPendingPib || isPendingTousGenres) {
+  //   return <LoaderSquare />;
+  // }
 
   const tab0_4ans = dataTousGenres.filter(
     (item: Person) => item.tag === "0 à 4"

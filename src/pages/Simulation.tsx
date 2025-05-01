@@ -1,8 +1,7 @@
 import { useTypeBarchartSimulation } from "../store/useTypeBarchartSimulation";
 import { BarchartSimulation } from "../components/graphics/BarchartSimulation";
 import { motion } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
-import { LoaderSquare } from "../components/LoaderSquare";
+// import { useQuery } from "@tanstack/react-query";
 import { Prediction, rungeKuttaPib } from "../algorithm/rungeKuttaPib";
 import {
   PopulationPrediction,
@@ -10,31 +9,25 @@ import {
 } from "../algorithm/rungeKuttaPopulation";
 import { useTargetPrediction } from "../store/useTargetPrediction";
 import { BarchartSimulationPib } from "../components/graphics/BarchartSimulationPib";
+import { data_pib as dataPib } from "../db/data_pib";
+import { data_population as dataPopulation} from "../db/data_population";
 
 export default function Simulation() {
-  //Le premier argument est un tableau d'objets contenant les données historiques de Madagascar
-  //Le deuxieme argument est le PIB de Madagascar en 2023
-  //Le troisieme argument est le taux de croissance de Madagascar en 2023
-  //Le quatrieme argument est le pas de calcul
-  //Le cinquieme argument est le nombre d'années futures à predire
-  // const predictions = predireCroissance(donneesHistoriques, 31195932, 3, 1, 300);
   const { target: targetYear } = useTargetPrediction();
 
-  const { isPending: isPendingPib, data: dataPib } = useQuery({
-    queryKey: ["pib"],
-    queryFn: () => {
-      return window.electronAPI.fetchPibs(); // Appel à la fonction exposée dans preload
-    },
-  });
+  // const { isPending: isPendingPib, data: dataPib } = useQuery({
+  //   queryKey: ["pib"],
+  //   queryFn: () => {
+  //     return window.electronAPI.fetchPibs(); // Appel à la fonction exposée dans preload
+  //   },
+  // });
 
-  const { isPending: isPendingPopulation, data: dataPopulation } = useQuery({
-    queryKey: ["population"],
-    queryFn: () => {
-      return window.electronAPI.fetchPopulations(); // Appel à la fonction exposée dans preload
-    },
-  });
-
-  if (isPendingPib || isPendingPopulation) return <LoaderSquare />;
+  // const { isPending: isPendingPopulation, data: dataPopulation } = useQuery({
+  //   queryKey: ["population"],
+  //   queryFn: () => {
+  //     return window.electronAPI.fetchPopulations(); // Appel à la fonction exposée dans preload
+  //   },
+  // });
 
   const predictionsPib = rungeKuttaPib(dataPib, targetYear);
 

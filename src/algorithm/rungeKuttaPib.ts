@@ -1,9 +1,6 @@
 type PibEntry = {
     year: string;
     value: number;
-    createdAt:Date;
-    updatedAt:Date;
-    id:number
   };
   
   export type Prediction = {

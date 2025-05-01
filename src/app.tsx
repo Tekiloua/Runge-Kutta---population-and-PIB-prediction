@@ -29,7 +29,7 @@ const Layout = () => {
     const timeout = setTimeout(() => {
       navigate("/");
       setIsLoading(false);
-    }, 20);
+    }, 1500);
     return () => {
       clearTimeout(timeout);
     };
@@ -41,7 +41,7 @@ const Layout = () => {
     setRouteLoading(true);
     const timeout = setTimeout(() => {
       setRouteLoading(false);
-    }, 20); // Durée du loader entre les routes (tu peux ajuster)
+    }, 400); // Durée du loader entre les routes (tu peux ajuster)
 
     return () => clearTimeout(timeout);
   }, [location.pathname]);

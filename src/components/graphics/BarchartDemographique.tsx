@@ -106,7 +106,6 @@ const labels = [
 ];
 
 type Person = {
-  id: number;
   tag: string;
   year: string;
   value: number;

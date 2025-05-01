@@ -101,7 +101,6 @@ const labels = [
 ];
 
 type PibType = {
-  id: number;
   year: string;
   value: number;
 };

@@ -1,5 +1,5 @@
 export type PopulationEntry = {
-  year: string;
+  year: number;
   value: number;
 };
 

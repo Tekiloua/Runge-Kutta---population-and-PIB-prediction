@@ -1,7 +1,10 @@
 import { useFiltreDonnee } from "../store/useFiltreDonne";
 import { TrendingDownIcon, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
-import { useQuery } from "@tanstack/react-query";
+// import { useQuery } from "@tanstack/react-query";
+import { data_all as dataTousGenres } from "../db/data_tous_genres";
+import { data_pib as dataPib } from "../db/data_pib";
+
 
 export const Donnee = () => {
   return (
@@ -48,12 +51,12 @@ type DataTypeDemographique = { year: string; tag: string; value: number };
 
 const TabDonneeDemographique = () => {
 
-  const { isPending: isPendingTousGenres, data: dataTousGenres } = useQuery({
-    queryKey: ["TousGenres"],
-    queryFn: () => {
-      return window.electronAPI.fetchTousGenres(); // Appel à la fonction exposée dans preload
-    },
-  });
+  // const { isPending: isPendingTousGenres, data: dataTousGenres } = useQuery({
+  //   queryKey: ["TousGenres"],
+  //   queryFn: () => {
+  //     return window.electronAPI.fetchTousGenres(); // Appel à la fonction exposée dans preload
+  //   },
+  // });
 
   let indexColor = 0;
   const { filtreDonnee } = useFiltreDonnee();
@@ -125,12 +128,12 @@ type DataTypePIB = {
 
 const TabDonneePIB = () => {
   const { filtreDonnee } = useFiltreDonnee();
-  const { isPending: isPendingPib, data: dataPib } = useQuery({
-      queryKey: ["pib"],
-      queryFn: () => {
-        return window.electronAPI.fetchPibs(); // Appel à la fonction exposée dans preload
-      },
-    });
+  // const { isPending: isPendingPib, data: dataPib } = useQuery({
+  //     queryKey: ["pib"],
+  //     queryFn: () => {
+  //       return window.electronAPI.fetchPibs(); // Appel à la fonction exposée dans preload
+  //     },
+  //   });
   let dataFiltered: Array<DataTypePIB> = [];
   dataPib.forEach((data) => {
     if (filtreDonnee == "1961 à 2023") dataFiltered.push(data);
