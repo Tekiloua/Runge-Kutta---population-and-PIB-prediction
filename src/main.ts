@@ -10,6 +10,7 @@ import { getFemmes, getHommes, getPibs  ,getTousGenres ,getPopulations} from "./
 //   app.quit();
 // }
 
+
 ipcMain.handle("fetch-femmes", async () => {
   const femmes = await getFemmes();
   return femmes;
